@@ -1,33 +1,31 @@
-import Sidebar from "@/components/sidebar";
+"use client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 
-const Login = () => {
+const Signup = () => {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push("login");
+  };
   return (
     <>
       <div className="flex flex-row items-center justify-evenly gap-40">
         <div>
           <Image
-            src="/login-image2.png"
+            src="/signup-image.png"
             alt="header image"
-            width={650}
-            height={650}
+            width={550}
+            height={550}
           />
         </div>
         <div className="flex">
           <div className="flex flex-col h-full justify-center items-center gap-8 p-2">
-            <button className="hex-button hover:bg-blue-800">
-              Login with SSO
-            </button>
-            <div className="flex flex-row items-center justify-center gap-2">
-              <hr className="bg-black h-1 w-[150px]" />
-              <h3> or </h3>
-              <hr className="bg-black h-1 w-[150px]" />
-            </div>
             <form className="">
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Username
+                  Username / Email
                 </label>
                 <input
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -46,21 +44,25 @@ const Login = () => {
                   type="password"
                   placeholder="******************"
                 />
-                {/* <p className="text-red-500 text-xs italic">
-                  Please choose a password.
-                </p> */}
-                <a
-                  className="inline-block align-baseline hex-text hover:text-blue-800"
-                  href="#"
-                >
-                  Forgot Password?
-                </a>
               </div>
-              {/* <div className="flex items-center justify-between"> */}
 
-              {/* </div> */}
+              <button
+                className="hex-button hover:bg-blue-800"
+                onClick={() => router.push("/login")}
+              >
+                Signup
+              </button>
+              <div className="flex flex-row items-center justify-center gap-2">
+                <hr className="bg-black h-1 w-[150px]" />
+                <h3> or </h3>
+                <hr className="bg-black h-1 w-[150px]" />
+              </div>
             </form>
-            <button className="hex-button hover:bg-blue-800">Login</button>
+            <button
+              className="flex flex-row gap-10 items-center justify-between"
+              onClick={() => router.push("/login")}>
+              Already have an account?
+            </button>
           </div>
         </div>
       </div>
@@ -68,4 +70,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
