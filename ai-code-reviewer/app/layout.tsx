@@ -2,10 +2,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import path from "path";
 import Sidebar from "@/components/sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -21,25 +19,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const pathName = usePathname();
-  const notNavBar = ["/login", "/signup", "/login/sso"]
+  const notNavBar = ["/login", "/signup", "/login/sso"];
   return (
     <html lang="en">
       <body className={inter.className}>
-        {/* flex */}
-        <div className="flex flex-col">
-          <Image
-            src="/header-image.png"
-            alt="header image"
-            width={1920}
-            height={10}
-          />
+        {/* Flex 1 */}
+        <div className="flex flex-col w-screen h-screen">
+          {/* Header */}
+          <header className="">
+            <img src="/header-image.png" alt="header image" className="h-40 w-full" />
+            <img src="/logo.png" alt="header image" className="h-20 z-10 absolute top-5 left-5" />
+          </header>
           <Link
-            className="font-bold absolute left-[1300px] top-[42px] inline-block align-baseline text-white hover:text-black p-2"
+            className="absolute right-10 top-10 font-extrabold text-white text-2xl hover:text-black p-2"
             href={pathName == "/login" ? "/signup" : "/login"}
           >
             {pathName == "/login" ? "Sign Up" : "Login"}
           </Link>
-          <div className={`flex flex-row  ${notNavBar.includes(pathName) ? 'items-center justify-center' : ''}`}>
+          <div
+            className={`flex flex-row h-screen w-screen ${
+              notNavBar.includes(pathName) ? "items-center justify-center" : ""
+            }`}
+          >
             {!notNavBar.includes(pathName) && <Sidebar />}
             {children}
           </div>
