@@ -1,12 +1,18 @@
+"use client";
 import Sidebar from "@/components/sidebar";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const Code = () => {
+  const router = useRouter();
   return (
     <>
       <div className="flex flex-col items-center justify-center w-screen px-8">
         <div className="flex items-center justify-center w-full h-24">
-          <button className="hex-button hover:bg-blue-800">
+          <button
+            className="hex-button hover:bg-blue-800"
+            onClick={() => router.push("/repositories")}
+          >
             + Manage Repositories
           </button>
         </div>
@@ -15,11 +21,9 @@ const Code = () => {
             <h2 className="p-2">Type here......</h2>
           </div>
           <div className="w-1/2 rounded-lg border-2 border-gray-500 "></div>
-        </div> 
+        </div>
         <div className="flex items-center justify-center w-full h-24">
-        <button className="hex-button hover:bg-blue-800">
-            Review
-        </button>
+          <button className="hex-button hover:bg-blue-800">Review</button>
         </div>
       </div>
     </>

@@ -19,7 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const pathName = usePathname();
-  const notNavBar = ["/login", "/signup", "/login/sso"];
+  const notNavBar = ["/", "/login", "/signup", "/login/sso"];
+  console.log(pathName);
   return (
     <html lang="en">
       <body className={inter.className}>

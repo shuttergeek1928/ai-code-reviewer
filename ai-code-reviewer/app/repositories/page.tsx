@@ -3,7 +3,7 @@ import React from "react";
 const Repositories = () => {
   return (
     <>
-      <div className="flex flex-col w-full p-4 container mx-auto">
+      <div className="flex flex-col w-[70%] p-4 container mx-auto">
         <table className="table-auto rounded-lg shadow-2xl w-[100%]">
           <thead>
             <tr>

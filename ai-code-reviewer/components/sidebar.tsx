@@ -6,7 +6,7 @@ const navlinks = [
   { image: "/graph.png", url: "/trends", name: "trends" },
   { image: "/history.png", url: "/history", name: "history" },
   { image: "/chatbot.png", url: "/chatbot", name: "chatbot" },
-  { image: "/settings.png", url: "/settings", name: "settings" },
+  { image: "/settings.png", url: "/setting", name: "settings" },
 ];
 
 const Sidebar = () => {
