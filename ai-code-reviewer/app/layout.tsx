@@ -28,14 +28,32 @@ export default function RootLayout({
         <div className="flex flex-col w-screen h-screen">
           {/* Header */}
           <header className="sticky top-0">
-            <img src="/header-image.png" alt="header image" className="h-40 w-full" />
-            <img src="/logo.png" alt="header image" className="h-20 z-10 absolute top-5 left-5" />
-          <Link
-            className="absolute right-10 top-10 font-extrabold text-white text-2xl hover:text-black p-2"
-            href={pathName == "/login" ? "/signup" : "/login"}
-          >
-            {pathName == "/login" ? "Sign Up" : "Login"}
-          </Link>
+            <img
+              src="/header-image.png"
+              alt="header image"
+              className="h-40 w-full"
+            />
+            <img
+              src="/logo.png"
+              alt="header image"
+              className="h-20 z-10 absolute top-5 left-5"
+            />
+            {notNavBar.includes(pathName) && (
+              <Link
+                className="absolute right-10 top-10 font-extrabold text-white text-2xl hover:text-black p-2"
+                href={pathName == "/login" ? "/signup" : "/login"}
+              >
+                {pathName == "/login" ? "Sign Up" : "Login"}
+              </Link>
+            )}
+            {!notNavBar.includes(pathName) && (
+              <Link
+                className="absolute right-10 top-10 font-extrabold text-white text-2xl hover:text-black p-2"
+                href="/login"
+              >
+                Sign Out
+              </Link>
+            )}
           </header>
           <div
             className={`flex flex-row h-screen w-screen overflow-y-auto ${
