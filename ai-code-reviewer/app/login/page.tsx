@@ -1,8 +1,56 @@
-import Sidebar from "@/components/sidebar";
+"use client";
+import React, { useState } from "react";
+import { RequestLoginModel } from "../models/requestModels";
+import { LoginResponse } from "../models/responseModel";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
-import React from "react";
 
 const Login = () => {
+  const router = useRouter();
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const loginModel = {} as RequestLoginModel;
+  const [loginResponse, setLoginResponse] = useState<LoginResponse | null>(
+    null
+  );
+  const handleChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>,
+    type: any
+  ) => {
+    if (type === "email") {
+      setEmail(event.target.value);
+    }
+    if (type === "password") {
+      setPassword(event.target.value);
+    }
+  };
+
+  const handleClick = async () => {
+    loginModel.password = password;
+    loginModel.email = email;
+    const axios = require("axios");
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: "http://localhost:5000/login",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: loginModel,
+    };
+
+    axios
+      .request(config)
+      .then((response: { data: any }) => {
+        setLoginResponse(response.data);
+        {loginResponse?.IsAuthenticated === "true" ? router.push("/codereview") : ''}
+        // {loginResponse?.IsAuthenticated === "true" ? console.log('true', loginResponse?.IsAuthenticated) : console.log('false', loginResponse?.IsAuthenticated)}
+        console.log(loginResponse)
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
+  };
   return (
     <>
       <div className="flex flex-row items-center justify-evenly gap-40">
@@ -16,14 +64,14 @@ const Login = () => {
         </div>
         <div className="flex">
           <div className="flex flex-col h-full justify-center items-center gap-8 p-2">
-            <button className="hex-button hover:bg-blue-800">
+            {/* <button className="hex-button hover:bg-blue-800">
               Login with SSO
             </button>
             <div className="flex flex-row items-center justify-center gap-2">
               <hr className="bg-black h-1 w-[150px]" />
               <h3> or </h3>
               <hr className="bg-black h-1 w-[150px]" />
-            </div>
+            </div> */}
             <form className="">
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -34,6 +82,7 @@ const Login = () => {
                   id="username"
                   type="text"
                   placeholder="Username"
+                  onChange={(e: any) => handleChange(e, "email")}
                 />
               </div>
               <div className="mb-6">
@@ -45,6 +94,7 @@ const Login = () => {
                   id="password"
                   type="password"
                   placeholder="******************"
+                  onChange={(e: any) => handleChange(e, "password")}
                 />
                 {/* <p className="text-red-500 text-xs italic">
                   Please choose a password.
@@ -60,7 +110,12 @@ const Login = () => {
 
               {/* </div> */}
             </form>
-            <button className="hex-button hover:bg-blue-800">Login</button>
+            <button
+              className="hex-button hover:bg-blue-800"
+              onClick={() => handleClick()}
+            >
+              Login
+            </button>
           </div>
         </div>
       </div>

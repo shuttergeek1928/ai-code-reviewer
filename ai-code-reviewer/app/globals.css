@@ -44,3 +44,10 @@
   color: #3867AD;
   font-weight: 700;
 }
+
+.responsive-textarea {
+  width: 100%; /* Take up 100% of the container width */
+  height: 100%; /* Initial height */
+  resize: none;
+  overflow-y: auto; /* Add scrollbar when content overflows vertically */
+}
