@@ -2,19 +2,26 @@
 import React, { useState } from "react";
 import { ReviewResponse } from "../models/responseModel";
 import { RequestReviewModel } from "../models/requestModels";
+import Spinner from "@/components/spinner";
+import AceEditor from "react-ace";
+import "ace-builds/src-noconflict/mode-java";
+import "ace-builds/src-noconflict/theme-github";
+import "ace-builds/src-noconflict/ext-language_tools";
+
 const requestJson = {} as RequestReviewModel;
-const responseJson = {} as ReviewResponse;
 
 const Code = () => {
   const [text, setText] = useState<string>("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [reviewedOutput, setReviewedOutput] = useState<ReviewResponse | null>(
     null
   );
 
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setText(event.target.value);
-  };
+  function onInputChage(value : any) {
+    console.log("change", value);
+    setText(value);
+  }
+
   const handleClick = async () => {
     setReviewedOutput(null);
     requestJson.code_input = text;
@@ -30,7 +37,7 @@ const Code = () => {
       },
       data: requestJson,
     };
-
+    setLoading(true);
     axios
       .request(config)
       .then((response: { data: any }) => {
@@ -40,9 +47,9 @@ const Code = () => {
       .catch((error: any) => {
         console.log(error);
       })
-      .finally(function(){
+      .finally(function () {
         setLoading(false);
-    });
+      });
   };
 
   const handleClear = async () => {
@@ -57,21 +64,62 @@ const Code = () => {
       <div className="flex flex-col items-center justify-center w-screen px-8">
         <div className="flex flex-row w-full h-[80%] gap-14">
           <div className="w-1/2 rounded-lg border-2 border-gray-500">
-            <textarea
+            {/* <textarea
               className="responsive-textarea"
               value={text}
               onChange={handleChange}
               rows={10} // You can adjust the number of rows as needed
               placeholder="Enter your code to review..."
+            /> */}
+            <AceEditor
+              placeholder="Enter your code here!"
+              mode="javascript"
+              theme="textmate"
+              name="blah2"
+              onChange={onInputChage}
+              fontSize={16}
+              lineHeight={24}
+              showPrintMargin={true}
+              showGutter={true}
+              highlightActiveLine={true}
+              value={text}
+              setOptions={{
+                enableBasicAutocompletion: true,
+                enableLiveAutocompletion: true,
+                enableSnippets: true,
+                showLineNumbers: true,
+                tabSize: 2,
+                wrap:true,
+              }}
             />
           </div>
-
           <div className="w-1/2 rounded-lg border-2 border-gray-500 ">
-            <textarea
+            {/* <textarea
               className="responsive-textarea"
               value={reviewedOutput?.corrected_code ?? ""}
               rows={10} // You can adjust the number of rows as needed
               placeholder="Enter your code to review..."
+            /> */}
+            <AceEditor
+              placeholder="Enter your code here!"
+              mode="javascript"
+              theme="textmate"
+              name="blah2"
+              onChange={onInputChage}
+              fontSize={16}
+              lineHeight={24}
+              showPrintMargin={true}
+              showGutter={true}
+              highlightActiveLine={true}
+              value={reviewedOutput?.corrected_code ?? ""}
+              setOptions={{
+                enableBasicAutocompletion: true,
+                enableLiveAutocompletion: true,
+                enableSnippets: true,
+                showLineNumbers: true,
+                tabSize: 2,
+                wrap:true
+              }}
             />
           </div>
           <div className="w-1/3 rounded-lg border-2 border-gray-500 p-4 overflow-y-auto">
@@ -104,6 +152,11 @@ const Code = () => {
           </button>
         </div>
       </div>
+      {loading && (
+        <div className="fixed inset-0 bg-[#3867AD]/15 flex items-center justify-center">
+          <Spinner />
+        </div>
+      )}
     </>
   );
 };
