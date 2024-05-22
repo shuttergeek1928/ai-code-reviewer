@@ -73,6 +73,7 @@ const BarCharts = () => {
       .then((response: { data: any }) => {
         setTrends(response.data);
         console.log(trends);
+        console.log(response.data);
       })
       .catch((error: any) => {
         console.log(error);
