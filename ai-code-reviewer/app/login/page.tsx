@@ -4,10 +4,12 @@ import { RequestLoginModel } from "../models/requestModels";
 import { LoginResponse } from "../models/responseModel";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const router = useRouter();
-  const [email, setEmail] = useState<string>("");
+  const { setUser } = useAuth();
+  const [inputEmail, setInputEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const loginModel = {} as RequestLoginModel;
   const [loginResponse, setLoginResponse] = useState<LoginResponse | null>(
@@ -18,7 +20,7 @@ const Login = () => {
     type: any
   ) => {
     if (type === "email") {
-      setEmail(event.target.value);
+      setInputEmail(event.target.value);
     }
     if (type === "password") {
       setPassword(event.target.value);
@@ -27,7 +29,7 @@ const Login = () => {
 
   const handleClick = async () => {
     loginModel.password = password;
-    loginModel.email = email;
+    loginModel.email = inputEmail;
     const axios = require("axios");
     let config = {
       method: "post",
@@ -43,6 +45,11 @@ const Login = () => {
       .request(config)
       .then((response: { data: any }) => {
         setLoginResponse(response.data);
+        {
+          loginResponse?.IsAuthenticated === "true"
+            ? setUser(loginModel.email)
+            : setUser(null);
+        }
         {
           loginResponse?.IsAuthenticated === "true"
             ? router.push("/codereview")
