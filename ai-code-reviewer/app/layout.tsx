@@ -5,7 +5,8 @@ import "./globals.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Sidebar from "@/components/sidebar";
-
+import { AppProps } from "next/app";
+import { AuthProvider } from "./context/AuthContext";
 const inter = Inter({ subsets: ["latin"] });
 
 // export const metadata: Metadata = {
@@ -22,31 +23,53 @@ export default function RootLayout({
   const notNavBar = ["/", "/login", "/signup", "/login/sso", "/forgetpass","/resetpass"];
   console.log(pathName);
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        {/* Flex 1 */}
-        <div className="flex flex-col w-screen h-screen">
-          {/* Header */}
-          <header className="sticky top-0">
-            <img src="/header-image.png" alt="header image" className="h-40 w-full" />
-            <img src="/logo.png" alt="header image" className="h-20 z-10 absolute top-5 left-5" />
-          <Link
-            className="absolute right-10 top-10 font-extrabold text-white text-2xl hover:text-black p-2"
-            href={pathName == "/login" ? "/signup" : "/login"}
-          >
-            {pathName == "/login" ? "Sign Up" : "Login"}
-          </Link>
-          </header>
-          <div
-            className={`flex flex-row h-screen w-screen overflow-y-auto ${
-              notNavBar.includes(pathName) ? "items-center justify-center" : ""
-            }`}
-          >
-            {!notNavBar.includes(pathName) && <Sidebar />}
-            {children}
+    <AuthProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          {/* Flex 1 */}
+          <div className="flex flex-col w-screen h-screen">
+            {/* Header */}
+            <header className="sticky top-0">
+              <img
+                src="/header-image.png"
+                alt="header image"
+                className="h-40 w-full"
+              />
+              <img
+                src="/logo.png"
+                alt="header image"
+                className="h-20 z-10 absolute top-5 left-5"
+              />
+              {notNavBar.includes(pathName) && (
+                <Link
+                  className="absolute right-10 top-10 font-extrabold text-white text-2xl hover:text-black p-2"
+                  href={pathName == "/login" ? "/signup" : "/login"}
+                >
+                  {pathName == "/login" ? "Sign Up" : "Login"}
+                </Link>
+              )}
+              {!notNavBar.includes(pathName) && (
+                <Link
+                  className="absolute right-10 top-10 font-extrabold text-white text-2xl hover:text-black p-2"
+                  href="/login"
+                >
+                  Sign Out
+                </Link>
+              )}
+            </header>
+            <div
+              className={`flex flex-row h-screen w-screen overflow-y-auto ${
+                notNavBar.includes(pathName)
+                  ? "items-center justify-center"
+                  : ""
+              }`}
+            >
+              {!notNavBar.includes(pathName) && <Sidebar />}
+              {children}
+            </div>
           </div>
-        </div>
-      </body>
-    </html>
+        </body>
+      </html>
+    </AuthProvider>
   );
 }
