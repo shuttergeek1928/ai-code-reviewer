@@ -101,7 +101,7 @@ const Login = () => {
                 />
                 <a
                   className="inline-block align-baseline hex-text hover:text-blue-800"
-                  href="#"
+                  href="/forgetpass"
                 >
                   Forgot Password?
                 </a>

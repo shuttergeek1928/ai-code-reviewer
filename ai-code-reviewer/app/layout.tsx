@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const pathName = usePathname();
-  const notNavBar = ["/", "/login", "/signup", "/login/sso"];
+  const notNavBar = ["/", "/login", "/signup", "/login/sso", "/forgetpass","/resetpass"];
   console.log(pathName);
   return (
     <AuthProvider>

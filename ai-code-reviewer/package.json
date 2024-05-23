@@ -10,6 +10,9 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.5.2",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@fortawesome/react-fontawesome": "^0.2.1",
     "ace-builds": "^1.33.3",
     "axios": "^1.6.8",
     "diff": "^5.2.0",
